@@ -1,0 +1,26 @@
+{
+  "name": "filter_rule_with_net_condition",
+  "ruleType": "FirewallPolicyFilterRule",
+  "priority": 9999,
+  "action": "DENY",
+  "ruleConditions": [
+    {
+      "name": "network_condition_2",
+      "description": "An example of Network condition",
+      "ruleConditionType": "NetworkRuleCondition",
+      "ipProtocols": ["TCP", "UDP"],
+      "sourceAddresses": ["202.120.36.13", "202.120.36.14"],
+      "destinationAddresses": ["202.120.36.15"],
+      "destinationPorts": ["12003", "12004"]
+    },
+    {
+      "name": "network_condition_2",
+      "description": "An example of Network condition",
+      "ruleConditionType": "NetworkRuleCondition",
+      "ipProtocols": ["TCP", "UDP"],
+      "sourceAddresses": ["202.120.36.13", "202.120.36.14"],
+      "destinationAddresses": ["202.120.36.15"],
+      "destinationPorts": ["12003", "12004"]
+    }
+  ]
+}

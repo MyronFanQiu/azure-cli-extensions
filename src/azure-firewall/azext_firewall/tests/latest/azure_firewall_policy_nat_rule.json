@@ -1,0 +1,17 @@
+{
+  "name": "nat_rule",
+  "ruleType": "FirewallPolicyNatRule",
+  "priority": 10000,
+  "translatedAddress": "128.1.1.1",
+  "translatedPort": 1234,
+  "action": "DNAT",
+  "ruleCondition": {
+      "name": "network_condition",
+      "description": "An example of Network condition",
+      "ruleConditionType": "NetworkRuleCondition",
+      "ipProtocols": ["TCP", "UDP"],
+      "sourceAddresses": ["202.120.36.13", "202.120.36.14"],
+      "destinationAddresses": ["202.120.36.15"],
+      "destinationPorts": ["12000", "12001"]
+  }
+}

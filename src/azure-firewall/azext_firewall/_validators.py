@@ -82,3 +82,19 @@ def get_subnet_validator():
                 child_name_1=namespace.subnet)
 
     return simple_validator
+
+
+def validate_firewall_policy(cmd, namespace):
+    from msrestazure.tools import is_valid_resource_id, resource_id
+
+    if namespace.base_policy is None:
+        return
+
+    if not is_valid_resource_id(namespace.base_policy):
+        namespace.base_policy = resource_id(
+            subscription=get_subscription_id(cmd.cli_ctx),
+            resource_group=namespace.resource_group_name,
+            namespace='Microsoft.Network',
+            type='firewallPolicies',
+            name=namespace.base_policy)
+

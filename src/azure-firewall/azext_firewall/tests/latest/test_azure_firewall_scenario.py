@@ -34,3 +34,69 @@ class AzureFirewallScenario(ScenarioTest):
         })
         self.cmd('network firewall create -g {rg} -n {af} --zones 1 3')
         self.cmd('network firewall update -g {rg} -n {af} --zones 1')
+
+    @ResourceGroupPreparer(name_prefix='cli_test_azure_firewall_policy', location='westcentralus')
+    def test_azure_firewall_zones(self, resource_group, resource_group_location):
+        self.kwargs.update({
+            'rulegroup': 'myrulegroup',
+            'policy': 'mypolicy',
+            'rg': resource_group,
+            'location': resource_group_location
+        })
+        self.cmd('network firewall policy create -g {rg} -n {policy} -l {location}')
+        self.cmd('network firewall policy rule-group create -g {rg} --priority 10000 --policy-name {policy} -n {rulegroup}')
+
+        self.cmd('az network firewall policy rule-group rule add-nat-rule -n nat_rule_3 --rule-priority 10005 \
+                 --policy-name {policy} -g {rg} --rule-group-name {rulegroup} --action DNAT \
+                 --condition-name network_condition --description "test" --destination-addresses "202.120.36.15" \
+                 --source-addresses "202.120.36.13" "202.120.36.14" --translated-address 128.1.1.1 \
+                 --translated-port 1234 --destination-ports 12000 12001 --ip-protocols TCP UDP --defer')
+
+        self.cmd('az network firewall policy rule-group rule add-nat-rule -n nat_rule_2 --rule-priority 10004 \
+                 --policy-name {policy} -g {rg} --rule-group-name {rulegroup} --action DNAT \
+                 --condition-name network_condition --description "test" --destination-addresses "202.120.36.15" \
+                 --source-addresses "202.120.36.13" "202.120.36.14" --translated-address 128.1.1.1 \
+                 --translated-port 1234 --destination-ports 12000 12001 --ip-protocols TCP UDP --defer')
+
+
+        self.cmd('az network firewall policy rule-group rule add-nat-rule -n nat_rule_1 --rule-priority 10003 \
+                 --policy-name {policy} -g {rg} --rule-group-name {rulegroup} --action DNAT \
+                 --condition-name network_condition --description "test" --destination-addresses "202.120.36.15" \
+                 --source-addresses "202.120.36.13" "202.120.36.14" --translated-address 128.1.1.1 \
+                 --translated-port 1234 --destination-ports 12000 12001 --ip-protocols TCP UDP')
+
+        self.cmd('az network firewall policy rule-group rule remove --policy-name {policy} -g {rg} --rule-group-name {rulegroup} --name nat_rule_1 --defer')
+        self.cmd('az network firewall policy rule-group rule remove --policy-name {policy} -g {rg} --rule-group-name {rulegroup} --name nat_rule_2 --defer')
+        self.cmd('az network firewall policy rule-group rule remove --policy-name {policy} -g {rg} --rule-group-name {rulegroup} --name nat_rule_3')
+
+        self.cmd('network firewall policy rule-group rule add-filter-rule -g {rg} --policy-name {policy} --rule-group-name {rulegroup} \
+                 --action Allow --condition-name network_condition --condition-type NetworkRuleCondition \
+                 --description "test" --destination-addresses "202.120.36.15" --source-addresses "202.120.36.13" "202.120.36.14" --destination-ports 12003 12004 \
+                 --ip-protocols TCP UDP --rule-priority 11000 --name filter_rule_2 --defer')
+
+        self.cmd('network firewall policy rule-group rule add-filter-rule -g {rg} --policy-name {policy} --rule-group-name {rulegroup} \
+                 --action Allow --condition-name network_condition --condition-type NetworkRuleCondition \
+                 --description "test" --destination-addresses "202.120.36.15" --source-addresses "202.120.36.13" "202.120.36.14" --destination-ports 12003 12004 \
+                 --ip-protocols TCP UDP --rule-priority 11001 --name filter_rule_3 --defer')
+
+        self.cmd('network firewall policy rule-group rule add-filter-rule -g {rg} --policy-name {policy} --rule-group-name {rulegroup} \
+                 --action Allow --condition-name network_condition --condition-type NetworkRuleCondition \
+                 --description "test" --destination-addresses "202.120.36.15" --source-addresses "202.120.36.13" "202.120.36.14" --destination-ports 12003 12004 \
+                 --ip-protocols TCP UDP --rule-priority 11002 --name filter_rule_1')
+
+        self.cmd('az network firewall policy rule-group rule add-filter-rule -g {rg} --policy-name {policy} --rule-group-name {rulegroup} \
+                 --action Allow --condition-name network_condition --condition-type ApplicationRuleCondition --description "test" \
+                 --destination-addresses "202.120.36.15" "202.120.36.16" --source-addresses "202.120.36.13" "202.120.36.14" --protocols Http=12800 Https=12801 \
+                 --fqdn-tags AzureBackup HDInsight --rule-priority 11100 --name filter_rule_5 --defer')
+
+        self.cmd('az network firewall policy rule-group rule condition add -g {rg} --policy-name {policy} --rule-group-name {rulegroup} \
+                 --condition-name network_condition_2 --condition-type ApplicationRuleCondition --description "test" --destination-addresses "202.120.36.15" "202.120.36.16" \
+                 --source-addresses "202.120.36.13" "202.120.36.14" --protocols Http=12800 Https=12801 --fqdn-tags AzureBackup HDInsight --name filter_rule_5 --defer')
+
+        self.cmd('az network firewall policy rule-group rule condition add -g {rg} --policy-name {policy} --rule-group-name {rulegroup} \
+                 --condition-name network_condition_3 --condition-type ApplicationRuleCondition \
+                 --description "test" --destination-addresses "202.120.36.15" "202.120.36.16" --source-addresses "202.120.36.13" "202.120.36.14" \
+                 --protocols Http=12800 Https=12801 --target-fqdns "natRuleTest1.net" "natRuleTest2.net" --name filter_rule')
+
+        self.cmd('az network firewall policy rule-group rule condition remove -g {rg} --policy-name {policy} --rule-group-name {rulegroup} -n network_condition_3 --rule-name filter_rule_5 --defer')
+        self.cmd('az network firewall policy rule-group rule condition remove -g {rg} --policy-name {policy} --rule-group-name {rulegroup} -n network_condition_2 --rule-name filter_rule_5')

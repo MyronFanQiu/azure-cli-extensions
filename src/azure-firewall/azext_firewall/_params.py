@@ -14,7 +14,8 @@ from knack.arguments import CLIArgumentType
 
 from ._completers import get_af_subresource_completion_list
 from ._validators import (
-    get_public_ip_validator, get_subnet_validator, validate_application_rule_protocols)
+    get_public_ip_validator, get_subnet_validator, validate_application_rule_protocols,
+    validate_firewall_policy)
 
 
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements
@@ -95,4 +96,46 @@ def load_arguments(self, _):
 
     with self.argument_context('network firewall ip-config list') as c:
         c.argument('resource_name', firewall_name_type, id_part=None)
+
+    with self.argument_context('network firewall policy') as c:
+        c.argument('firewall_policy_name', options_list=['--name', '-n'], help='The name of the Firewall Policy.')
+        c.argument('base_policy', validator=validate_firewall_policy, help='The name or ID of parent firewall policy from which rules are inherited.')
+        c.argument('threat_intel_mode', arg_type=get_enum_type(['Alert', 'Deny', 'Off']), help='The operation mode for Threat Intelligence.')
+
+    with self.argument_context('network firewall policy rule-group') as c:
+        c.argument('firewall_policy_name', options_list=['--policy-name'], help='The name of the Firewall Policy.')
+        c.argument('rule_group_name', options_list=['--name', '-n'], help='The name of the Firewall Policy Rule Group.')
+        c.argument('priority', type=int, help='Priority of the Firewall Policy Rule Group')
+
+    with self.argument_context('network firewall policy rule-group') as c:
+        c.argument('firewall_policy_name', options_list=['--policy-name'], help='The name of the Firewall Policy.')
+        c.argument('rule_group_name', options_list=['--name', '-n'], help='The name of the Firewall Policy Rule Group.')
+        c.argument('priority', type=int, help='The priority of the Firewall Policy Rule Group')
+
+    with self.argument_context('network firewall policy rule-group rule') as c:
+        c.argument('rule_group_name', options_list=['--rule-group-name'], help='The name of the Firewall Policy Rule Group.')
+        c.argument('rule_name', options_list=['--name', '-n'], help='The name of the rule in Firewall Policy Rule Group.')
+        c.argument('rule_priority', type=int, help='The priority of the rule in Firewall Policy Rule Group')
+        c.argument('description', arg_group='Common Condition', help='The description of rule condition.')
+        c.argument('destination_addresses', arg_group='Common Condition', nargs='+', help="Space-separated list of destination IP addresses.")
+        c.argument('source_addresses', arg_group='Common Condition', nargs='+', help="Space-separated list of source IP addresses.")
+        c.argument('condition_name', arg_group='Common Condition', help='The name of rule condition')
+        c.argument('condition_type', arg_group='Common Condition', arg_type=get_enum_type(["ApplicationRuleCondition", "NetworkRuleCondition"]), help='The type of rule condition')
+        c.argument('translated_address', arg_group='Nat Rule', help='Translated address for this NAT rule.')
+        c.argument('translated_port', arg_group='Nat Rule', help='Translated port for this NAT rule.')
+        c.argument('destination_ports', arg_group='Network Condition', nargs='+', help="Space-separated list of destination ports.")
+        c.argument('ip_protocols', arg_group='Network Condition', nargs='+', arg_type=get_enum_type(["TCP", "UDP", "Any","ICMP"]), help="Space-separated list of IP protocols")
+        c.argument('target_fqdns', nargs='+', arg_group='Application Condition', help='Space-separated list of FQDNs for this rule condition.')
+        c.argument('fqdn_tags', nargs='+', arg_group='Application Condition', help='Space-separated list of FQDN tags for this rule condition.')
+        c.argument('protocols', nargs='+', arg_group='Application Condition', validator=validate_application_rule_protocols, help='Space-separated list of protocols and port numbers to use, in PROTOCOL=PORT format. Valid protocols are Http, Https.')
+
+    with self.argument_context('network firewall policy rule-group rule add-filter-rule') as c:
+        c.argument('filter_action', options_list=['--action'], arg_type=get_enum_type(['Allow', 'Deny']), help='The action type of a rule.')
+
+    with self.argument_context('network firewall policy rule-group rule add-nat-rule') as c:
+        c.argument('nat_action', options_list=['--action'], arg_type=get_enum_type(['DNAT', 'SNAT']), help='The action type of a rule.')
+
+    with self.argument_context('network firewall policy rule-group rule condition') as c:
+        c.argument('rule_name', options_list=['--rule-name'], help='The name of the rule in Firewall Policy Rule Group.')
+        c.argument('condition_name', options_list=['--name', '-n'], arg_group='Common Condition', help='The name of rule condition')
     # endregion

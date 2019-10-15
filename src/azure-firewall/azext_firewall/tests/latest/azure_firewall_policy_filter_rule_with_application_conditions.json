@@ -1,0 +1,46 @@
+{
+  "name": "filter_rule",
+  "ruleType": "FirewallPolicyFilterRule",
+  "priority": 10001,
+  "action": "ALLOW",
+  "ruleConditions": [
+    {
+      "name": "application_condition",
+      "description": "An example of application condition",
+      "ruleConditionType": "ApplicationRuleCondition",
+      "sourceAddresses": ["202.120.36.13", "202.120.36.14"],
+      "destinationAddresses": ["202.120.36.15", "202.120.36.16"],
+      "protocols": [
+        {"protocolType": "Http",
+         "port": 12800},
+        {"protocolType": "Https",
+         "port": 12801}
+      ],
+      "fqdnTags": ["AzureBackup", "HDInsight"]
+    },
+    {
+      "name": "application_condition_2",
+      "description": "An example of application condition",
+      "ruleConditionType": "ApplicationRuleCondition",
+      "sourceAddresses": [
+        "202.120.36.13",
+        "202.120.36.14"
+      ],
+      "destinationAddresses": [
+        "202.120.36.15",
+        "202.120.36.16"
+      ],
+      "protocols": [
+        {
+          "protocolType": "Http",
+          "port": 12802
+        },
+        {
+          "protocolType": "Https",
+          "port": 12803
+        }
+      ],
+      "targetFqdns": ["natRuleTest1.net", "natRuleTest2.net"]
+    }
+  ]
+}
