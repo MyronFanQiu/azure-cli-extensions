@@ -175,8 +175,8 @@ def _upsert_af_rule(cmd, resource_group_name, firewall_name, collection_param_na
 
 
 def create_af_network_rule(cmd, resource_group_name, azure_firewall_name, collection_name, item_name,
-                           source_addresses, destination_addresses, destination_ports, protocols,
-                           description=None, priority=None, action=None):
+                           source_addresses, destination_ports, protocols, destination_fqdns=None,
+                           destination_addresses=None, description=None, priority=None, action=None):
     AzureFirewallNetworkRule, AzureFirewallNetworkRuleCollection = cmd.get_models(
         'AzureFirewallNetworkRule', 'AzureFirewallNetworkRuleCollection')
     params = {
@@ -185,6 +185,7 @@ def create_af_network_rule(cmd, resource_group_name, azure_firewall_name, collec
         'source_addresses': source_addresses,
         'destination_addresses': destination_addresses,
         'destination_ports': destination_ports,
+        'destination_fqdns': destination_fqdns,
         'protocols': protocols
     }
     collection_params = {
@@ -198,8 +199,8 @@ def create_af_network_rule(cmd, resource_group_name, azure_firewall_name, collec
 
 
 def create_af_nat_rule(cmd, resource_group_name, azure_firewall_name, collection_name, item_name,
-                       source_addresses, destination_addresses, destination_ports, protocols,
-                       translated_address, translated_port, description=None, priority=None, action=None):
+                       source_addresses, destination_addresses, destination_ports, protocols, translated_port,
+                       translated_address=None, translated_fqdn=None, description=None, priority=None, action=None):
     AzureFirewallNatRule, AzureFirewallNatRuleCollection = cmd.get_models(
         'AzureFirewallNatRule', 'AzureFirewallNatRuleCollection')
     params = {
@@ -210,7 +211,8 @@ def create_af_nat_rule(cmd, resource_group_name, azure_firewall_name, collection
         'destination_ports': destination_ports,
         'protocols': protocols,
         'translated_address': translated_address,
-        'translated_port': translated_port
+        'translated_port': translated_port,
+        'translated_fqdn': translated_fqdn
     }
     collection_params = {
         'name': collection_name,

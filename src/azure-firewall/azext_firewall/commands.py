@@ -12,6 +12,8 @@ from ._client_factory import cf_firewalls, cf_firewall_fqdn_tags, cf_firewall_po
 from ._util import (
     list_network_resource_property, get_network_resource_property_entry, delete_network_resource_property_entry)
 
+from ._validators import validate_af_network_rule, validate_af_nat_rule, validate_af_application_rule
+
 
 # pylint: disable=too-many-locals, too-many-statements
 def load_command_table(self, _):
@@ -60,13 +62,14 @@ def load_command_table(self, _):
         g.command('delete', delete_network_resource_property_entry('azure_firewalls', 'ip_configurations'))
 
     af_rules = {
-        'network_rule': 'network-rule',
-        'nat_rule': 'nat-rule',
-        'application_rule': 'application-rule'
+        'network_rule': {'scope': 'network-rule', 'validator': validate_af_network_rule},
+        'nat_rule': {'scope': 'nat-rule', 'validator': validate_af_nat_rule},
+        'application_rule': {'scope': 'application-rule', 'validator': validate_af_application_rule}
     }
-    for rule_type, scope in af_rules.items():
-        with self.command_group('network firewall {}'.format(scope), network_firewall_sdk) as g:
-            g.custom_command('create', 'create_af_{}'.format(rule_type))
+
+    for rule_type, af_rule in af_rules.items():
+        with self.command_group('network firewall {}'.format(af_rule['scope']), network_firewall_sdk) as g:
+            g.custom_command('create', 'create_af_{}'.format(rule_type), validator=af_rule['validator'])
             g.custom_command('list', build_af_rule_list(rule_type, '{}_collections'.format(rule_type)))
             g.custom_command('show', build_af_rule_show(rule_type, '{}_collections'.format(rule_type)))
             g.custom_command('delete', build_af_rule_delete(rule_type, '{}_collections'.format(rule_type)))

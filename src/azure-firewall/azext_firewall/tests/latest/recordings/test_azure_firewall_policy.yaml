@@ -1,0 +1,282 @@
+interactions:
+- request:
+    body: '{"location": "westcentralus", "properties": {"basePolicy": {}}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - network firewall policy create
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '63'
+      Content-Type:
+      - application/json; charset=utf-8
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - python/3.7.4 (Windows-10-10.0.18362-SP0) msrest/0.6.10 msrest_azure/0.6.2
+        azure-mgmt-network/7.0.0 Azure-SDK-For-Python AZURECLI/2.0.75
+      accept-language:
+      - en-US
+    method: PUT
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_azure_firewall_policy000001/providers/Microsoft.Network/firewallPolicies/mypolicy?api-version=2019-09-01
+  response:
+    body:
+      string: "{\r\n  \"status\": \"Failed\",\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n
+        \   \"message\": \"Internal Server Error\"\r\n  }\r\n}"
+    headers:
+      cache-control:
+      - no-cache
+      connection:
+      - close
+      content-length:
+      - '122'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Sun, 27 Oct 2019 06:02:41 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+      x-ms-failure-cause:
+      - service
+      x-ms-ratelimit-remaining-subscription-writes:
+      - '1196'
+    status:
+      code: 500
+      message: Internal Server Error
+- request:
+    body: '{"location": "westcentralus", "properties": {"basePolicy": {}}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - network firewall policy create
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '63'
+      Content-Type:
+      - application/json; charset=utf-8
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - python/3.7.4 (Windows-10-10.0.18362-SP0) msrest/0.6.10 msrest_azure/0.6.2
+        azure-mgmt-network/7.0.0 Azure-SDK-For-Python AZURECLI/2.0.75
+      accept-language:
+      - en-US
+    method: PUT
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_azure_firewall_policy000001/providers/Microsoft.Network/firewallPolicies/mypolicy?api-version=2019-09-01
+  response:
+    body:
+      string: "{\r\n  \"status\": \"Failed\",\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n
+        \   \"message\": \"Internal Server Error\"\r\n  }\r\n}"
+    headers:
+      cache-control:
+      - no-cache
+      connection:
+      - close
+      content-length:
+      - '122'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Sun, 27 Oct 2019 06:02:43 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+      x-ms-failure-cause:
+      - service
+      x-ms-ratelimit-remaining-subscription-writes:
+      - '1195'
+    status:
+      code: 500
+      message: Internal Server Error
+- request:
+    body: '{"location": "westcentralus", "properties": {"basePolicy": {}}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - network firewall policy create
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '63'
+      Content-Type:
+      - application/json; charset=utf-8
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - python/3.7.4 (Windows-10-10.0.18362-SP0) msrest/0.6.10 msrest_azure/0.6.2
+        azure-mgmt-network/7.0.0 Azure-SDK-For-Python AZURECLI/2.0.75
+      accept-language:
+      - en-US
+    method: PUT
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_azure_firewall_policy000001/providers/Microsoft.Network/firewallPolicies/mypolicy?api-version=2019-09-01
+  response:
+    body:
+      string: "{\r\n  \"status\": \"Failed\",\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n
+        \   \"message\": \"Internal Server Error\"\r\n  }\r\n}"
+    headers:
+      cache-control:
+      - no-cache
+      connection:
+      - close
+      content-length:
+      - '122'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Sun, 27 Oct 2019 06:02:48 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+      x-ms-failure-cause:
+      - service
+      x-ms-ratelimit-remaining-subscription-writes:
+      - '1196'
+    status:
+      code: 500
+      message: Internal Server Error
+- request:
+    body: '{"location": "westcentralus", "properties": {"basePolicy": {}}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - network firewall policy create
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '63'
+      Content-Type:
+      - application/json; charset=utf-8
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - python/3.7.4 (Windows-10-10.0.18362-SP0) msrest/0.6.10 msrest_azure/0.6.2
+        azure-mgmt-network/7.0.0 Azure-SDK-For-Python AZURECLI/2.0.75
+      accept-language:
+      - en-US
+    method: PUT
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_azure_firewall_policy000001/providers/Microsoft.Network/firewallPolicies/mypolicy?api-version=2019-09-01
+  response:
+    body:
+      string: "{\r\n  \"status\": \"Failed\",\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n
+        \   \"message\": \"Internal Server Error\"\r\n  }\r\n}"
+    headers:
+      cache-control:
+      - no-cache
+      connection:
+      - close
+      content-length:
+      - '122'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Sun, 27 Oct 2019 06:02:53 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+      x-ms-failure-cause:
+      - service
+      x-ms-ratelimit-remaining-subscription-writes:
+      - '1197'
+    status:
+      code: 500
+      message: Internal Server Error
+- request:
+    body: '{"location": "westcentralus", "properties": {"basePolicy": {}}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - network firewall policy create
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '63'
+      Content-Type:
+      - application/json; charset=utf-8
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - python/3.7.4 (Windows-10-10.0.18362-SP0) msrest/0.6.10 msrest_azure/0.6.2
+        azure-mgmt-network/7.0.0 Azure-SDK-For-Python AZURECLI/2.0.75
+      accept-language:
+      - en-US
+    method: PUT
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_azure_firewall_policy000001/providers/Microsoft.Network/firewallPolicies/mypolicy?api-version=2019-09-01
+  response:
+    body:
+      string: "{\r\n  \"status\": \"Failed\",\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n
+        \   \"message\": \"Internal Server Error\"\r\n  }\r\n}"
+    headers:
+      cache-control:
+      - no-cache
+      connection:
+      - close
+      content-length:
+      - '122'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Sun, 27 Oct 2019 06:03:01 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+      x-ms-failure-cause:
+      - service
+      x-ms-ratelimit-remaining-subscription-writes:
+      - '1194'
+    status:
+      code: 500
+      message: Internal Server Error
+version: 1

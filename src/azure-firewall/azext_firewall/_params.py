@@ -34,10 +34,12 @@ def load_arguments(self, _):
         c.argument('location', get_location_type(self.cli_ctx), validator=get_default_location_from_resource_group)
         c.argument('description', help='Rule description.')
         c.argument('destination_addresses', nargs='+', help="Space-separated list of destination IP addresses. Use '*' to match all.")
+        c.argument('destination_fqdns', nargs='+', help="Space-separated list of destination FQDNs.")
         c.argument('source_addresses', nargs='+', help="Space-separated list of source IP addresses. Use '*' to match all.")
         c.argument('destination_ports', nargs='+', help="Space-separated list of destination ports. Use '*' to match all.")
         c.argument('translated_address', help='Translated address for this NAT rule.')
         c.argument('translated_port', help='Translated port for this NAT rule.')
+        c.argument('translated_fqdn', help='Translated FQDN for this NAT rule.')
         c.argument('tags', tags_type)
         c.argument('zones', zones_type)
 

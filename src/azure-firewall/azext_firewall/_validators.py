@@ -98,3 +98,25 @@ def validate_firewall_policy(cmd, namespace):
             type='firewallPolicies',
             name=namespace.base_policy)
 
+
+def validate_af_network_rule(namespace):
+    from knack.util import CLIError
+    if namespace.destination_addresses is None and namespace.destination_fqdns is None:
+        raise CLIError('usage error: --destination-addresses | --destination-fqdns')
+    if namespace.destination_addresses is not None and namespace.destination_fqdns is not None:
+        raise CLIError('usage error: --destination-addresses | --destination-fqdns')
+    return namespace
+
+
+def validate_af_nat_rule(namespace):
+    from knack.util import CLIError
+    from knack.util import CLIError
+    if namespace.translated_address is None and namespace.translated_fqdn is None:
+        raise CLIError('usage error: --translated-address | --translated-fqdn')
+    if namespace.translated_address is not None and namespace.translated_fqdn is not None:
+        raise CLIError('usage error: --translated-address | --translated-fqdn')
+    return namespace
+
+
+def validate_af_application_rule(namespace):
+    return namespace

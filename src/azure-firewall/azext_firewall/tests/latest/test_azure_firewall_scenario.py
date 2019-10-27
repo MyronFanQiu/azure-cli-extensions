@@ -25,6 +25,21 @@ class AzureFirewallScenario(ScenarioTest):
         self.cmd('network firewall list -g {rg}')
         self.cmd('network firewall delete -g {rg} -n {af}')
 
+    @ResourceGroupPreparer(name_prefix='cli_test_azure_firewall_rules')
+    def test_azure_firewall_rules(self, resource_group):
+
+        self.kwargs.update({
+            'af': 'af1',
+            'coll': 'rc1',
+            'coll2': 'rc2',
+            'network_rule1': 'network-rule1',
+            'nat_rule1': 'nat-rule1'
+        })
+        self.cmd('network firewall create -g {rg} -n {af}')
+        self.cmd('network firewall network-rule create -g {rg} -n {network_rule1} -c {coll} --priority 10000 --action Allow -f {af} --source-addresses 10.0.0.0 111.1.0.0/24 --protocols UDP TCP ICMP --destination-fqdns www.bing.com --destination-ports 80')
+        self.cmd('network firewall nat-rule create -g {rg} -n {network_rule1} -c {coll2} --priority 10001 --action Dnat -f {af} --source-addresses 10.0.0.0 111.1.0.0/24 --protocols UDP TCP --translated-fqdn server1.internal.com --destination-ports 96 --destination-addresses 12.36.22.14 --translated-port 95')
+        self.cmd('network firewall delete -g {rg} -n {af}')
+
     @ResourceGroupPreparer(name_prefix='cli_test_azure_firewall_zones', location='eastus')
     def test_azure_firewall_zones(self, resource_group):
 
@@ -36,7 +51,7 @@ class AzureFirewallScenario(ScenarioTest):
         self.cmd('network firewall update -g {rg} -n {af} --zones 1')
 
     @ResourceGroupPreparer(name_prefix='cli_test_azure_firewall_policy', location='westcentralus')
-    def test_azure_firewall_zones(self, resource_group, resource_group_location):
+    def test_azure_firewall_policy(self, resource_group, resource_group_location):
         self.kwargs.update({
             'rulegroup': 'myrulegroup',
             'policy': 'mypolicy',
