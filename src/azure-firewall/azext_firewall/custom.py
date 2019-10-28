@@ -175,7 +175,8 @@ def _upsert_af_rule(cmd, resource_group_name, firewall_name, collection_param_na
 
 
 def create_af_network_rule(cmd, resource_group_name, azure_firewall_name, collection_name, item_name,
-                           source_addresses, destination_ports, protocols, destination_fqdns=None,
+                           destination_ports, protocols, destination_fqdns=None, source_addresses=None,
+                           source_ip_groups=None, destination_ip_groups=None,
                            destination_addresses=None, description=None, priority=None, action=None):
     AzureFirewallNetworkRule, AzureFirewallNetworkRuleCollection = cmd.get_models(
         'AzureFirewallNetworkRule', 'AzureFirewallNetworkRuleCollection')
@@ -186,7 +187,9 @@ def create_af_network_rule(cmd, resource_group_name, azure_firewall_name, collec
         'destination_addresses': destination_addresses,
         'destination_ports': destination_ports,
         'destination_fqdns': destination_fqdns,
-        'protocols': protocols
+        'protocols': protocols,
+        'source_ip_groups': source_ip_groups,
+        'destination_ip_groups': destination_ip_groups
     }
     collection_params = {
         'name': collection_name,
@@ -199,8 +202,9 @@ def create_af_network_rule(cmd, resource_group_name, azure_firewall_name, collec
 
 
 def create_af_nat_rule(cmd, resource_group_name, azure_firewall_name, collection_name, item_name,
-                       source_addresses, destination_addresses, destination_ports, protocols, translated_port,
-                       translated_address=None, translated_fqdn=None, description=None, priority=None, action=None):
+                       destination_addresses, destination_ports, protocols, translated_port, source_addresses=None,
+                       source_ip_groups=None, translated_address=None, translated_fqdn=None,
+                       description=None, priority=None, action=None):
     AzureFirewallNatRule, AzureFirewallNatRuleCollection = cmd.get_models(
         'AzureFirewallNatRule', 'AzureFirewallNatRuleCollection')
     params = {
@@ -212,7 +216,8 @@ def create_af_nat_rule(cmd, resource_group_name, azure_firewall_name, collection
         'protocols': protocols,
         'translated_address': translated_address,
         'translated_port': translated_port,
-        'translated_fqdn': translated_fqdn
+        'translated_fqdn': translated_fqdn,
+        'source_ip_groups': source_ip_groups
     }
     collection_params = {
         'name': collection_name,
@@ -225,8 +230,8 @@ def create_af_nat_rule(cmd, resource_group_name, azure_firewall_name, collection
 
 
 def create_af_application_rule(cmd, resource_group_name, azure_firewall_name, collection_name, item_name,
-                               protocols, description=None, source_addresses=None, target_fqdns=None,
-                               fqdn_tags=None, priority=None, action=None):
+                               protocols, description=None, source_ip_groups=None, source_addresses=None,
+                               target_fqdns=None, fqdn_tags=None, priority=None, action=None):
     AzureFirewallApplicationRule, AzureFirewallApplicationRuleCollection = cmd.get_models(
         'AzureFirewallApplicationRule', 'AzureFirewallApplicationRuleCollection')
     params = {
@@ -235,7 +240,8 @@ def create_af_application_rule(cmd, resource_group_name, azure_firewall_name, co
         'source_addresses': source_addresses,
         'protocols': protocols,
         'target_fqdns': target_fqdns,
-        'fqdn_tags': fqdn_tags
+        'fqdn_tags': fqdn_tags,
+        'source_ip_groups': source_ip_groups
     }
     collection_params = {
         'name': collection_name,
