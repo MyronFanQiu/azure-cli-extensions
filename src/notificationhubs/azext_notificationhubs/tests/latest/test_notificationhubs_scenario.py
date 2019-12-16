@@ -20,25 +20,33 @@ class NotificationHubsScenarioTest(ScenarioTest):
     def test_notificationhubs(self, resource_group):
 
         self.kwargs.update({
-            'name': 'test1',
+            'name': 'mycli-hub-ns-test3',
+            'hubname': 'mycli-hub-test3',
+            'rg': resource_group
         })
 
-        self.cmd('az notificationhubs check_availability --name "my-hub-ns" -o json', checks=[JMESPathCheck('isAvailiable', 'True')])
-        self.cmd('az notificationhubs create --namespace-name "my-hub-ns" --location "japaneast" -o json', checks=[JMESPathCheck('name', 'my-hub-ns')])
+        self.cmd('az notificationhubs check-availability --name {name} -o json', checks=[
+            self.check('isAvailiable', True),
+            self.check('name', '{name}')
+        ])
+        self.cmd('az notificationhubs create --namespace-name {name} -g {rg} --location "japaneast" -o json', checks=[
+            self.check('name', '{name}')
+        ])
         if self.is_live:
             time.sleep(20)
-        self.cmd('az notificationhubs show --namespace-name "my-hub-ns" -o json', checks=[JMESPathCheck('name', 'my-hub-ns')])
-        self.cmd('az notificationhubs list -o json', checks=[])
-        # self.cmd('az notificationhubs get_authorization_rule --namespace-name "my-hub-ns" --name "RootManageSharedAccessKey"', checks=[JMESPathCheck('name', 'RootManageSharedAccessKey')])
-        #self.cmd('az notificationhubs update --namespace-name "my-hub-ns" --tags "type=test" -o json', checks=[JMESPathCheck('tags.type', 'test')])
-        #self.cmd('az notificationhubs create_or_update_authorization_rule --namespace-name "my-hub-ns" --name "sdk-AuthRules-1788"', checks=[])
-
-        self.cmd('az notificationhubs notification-hub check_notification_hub_availability --namespace-name "my-hub-ns" --name "my-hub-73" -o json', checks=[JMESPathCheck('isAvailiable', 'True')])
-        self.cmd('az notificationhubs notification-hub create --namespace-name "my-hub-ns" --notification-hub-name "my-hub-73" --location "japaneast" -o json', checks=[JMESPathCheck('name', 'my-hub-73')])
+        self.cmd('az notificationhubs show --namespace-name {name} -g {rg} -o json', checks=[
+            self.check('name', '{name}')
+        ])
+        self.cmd('az notificationhubs list -g {rg} -o json', checks=[])
+        self.cmd('az notificationhubs notification-hub check-notification-hub-availability -g {rg} --namespace-name {name} --name {hubname} -o json', checks=[
+            self.check('isAvailiable', True)
+        ])
         if self.is_live:
             time.sleep(20)
-        # self.cmd('az notificationhubs notification-hub get_authorization_rule --namespace-name "my-hub-ns" --notification-hub-name "my-hub-73" --name "DefaultListenSharedAccessSignature"', checks=[JMESPathCheck('rights[0]', 'Listen')])    
-        self.cmd('az notificationhubs notification-hub show --namespace-name "my-hub-ns" --notification-hub-name "my-hub-73"', checks=[])    
+        self.cmd('az notificationhubs notification-hub create --namespace-name {name} --notification-hub-name {hubname} --location "japaneast" -g {rg} -o json', checks=[
+            self.check('name', '{hubname}')
+        ])
         if self.is_live:
             time.sleep(20)
-        self.cmd('az notificationhubs delete --namespace-name "my-hub-ns"', checks=[])
+        self.cmd('az notificationhubs notification-hub show --namespace-name {name} --notification-hub-name {hubname} -g {rg}', checks=[])
+        self.cmd('az notificationhubs notification-hub delete --namespace-name {name} --notification-hub-name {hubname} -g {rg}', checks=[])

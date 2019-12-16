@@ -52,7 +52,7 @@ def load_arguments(self, _):
     with self.argument_context('notificationhubs list') as c:
         c.argument('resource_group', resource_group_name_type)
 
-    with self.argument_context('notificationhubs check_availability') as c:
+    with self.argument_context('notificationhubs check-availability') as c:
         c.argument('name',id_part=None, help='The namespace name.')
         pass
 
@@ -123,7 +123,7 @@ def load_arguments(self, _):
         c.argument('resource_group', resource_group_name_type)
         c.argument('namespace_name', id_part=None, help='The namespace name.')
 
-    with self.argument_context('notificationhubs notification-hub check_notification_hub_availability') as c:
+    with self.argument_context('notificationhubs notification-hub check-notification-hub-availability') as c:
         c.argument('resource_group', resource_group_name_type)
         c.argument('namespace_name', id_part=None, help='The namespace name.')
         c.argument('name',id_part=None, help='The notificationHub name.')
