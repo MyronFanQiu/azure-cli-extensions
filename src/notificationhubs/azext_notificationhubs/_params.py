@@ -60,7 +60,7 @@ def load_arguments(self, _):
         c.argument('resource_group', resource_group_name_type)
 
     with self.argument_context('notificationhubs namespace check_availability') as c:
-        pass
+        c.argument('name', id_part=None, help='The namespace name.')
 
     with self.argument_context('notificationhubs namespace list_keys') as c:
         c.argument('resource_group', resource_group_name_type)

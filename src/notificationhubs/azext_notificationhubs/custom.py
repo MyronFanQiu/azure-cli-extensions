@@ -96,8 +96,8 @@ def list_notificationhubs_namespace(cmd, client,
     return client.list_all()
 
 
-def check_availability_notificationhubs_namespace(cmd, client):
-    body = {}
+def check_availability_notificationhubs_namespace(cmd, client, name):
+    body = {"name": name}
     return client.check_availability(parameters=body)
 
 

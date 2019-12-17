@@ -4,6 +4,7 @@
 # --------------------------------------------------------------------------------------------
 
 import os
+import time
 import unittest
 
 from azure_devtools.scenario_tests import AllowLargeResponse
@@ -19,19 +20,28 @@ class NotificationHubsScenarioTest(ScenarioTest):
     def test_notificationhubs(self, resource_group):
 
         self.kwargs.update({
-            'name': 'test1'
+            'namespace': 'mycli-not-namespace-test2',
+            'hub': 'mycli-not-hub-test2'
         })
+
+        self.cmd('az notificationhubs namespace check_availability '
+                 '--name {namespace}',
+                 checks=[])
 
         self.cmd('az notificationhubs namespace create '
                  '--resource-group {rg} '
-                 '--namespace-name "nh-sdk-ns" '
+                 '--namespace-name {namespace} '
                  '--location "South Central US" '
                  '--sku-name "Standard" '
                  '--sku-tier "Standard"',
                  checks=[])
 
+        if self.is_live:
+            time.sleep(20)
+
         self.cmd('az notificationhubs hub create '
                  '--resource-group {rg} '
-                 '--namespace-name "nh-sdk-ns" '
-                 '--notification-hub-name "nh-sdk-hub"',
+                 '--namespace-name {namespace} '
+                 '--notification-hub-name {hub} '
+                 '--sku-name "Standard"',
                  checks=[])
