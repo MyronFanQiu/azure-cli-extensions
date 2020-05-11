@@ -11,6 +11,8 @@ from azure.cli.core.commands.parameters import (
 from azure.cli.core.commands.validators import get_default_location_from_resource_group
 
 from ._validators import get_network_resource_name_or_id
+from .profiles import CUSTOM_VHUB_ROUTE_TABLE
+from .action import RadiusServerAddAction
 
 
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements
@@ -20,6 +22,8 @@ def load_arguments(self, _):
      VirtualNetworkGatewayConnectionProtocol) = self.get_models(
          'IpsecEncryption', 'IpsecIntegrity', 'IkeEncryption', 'IkeIntegrity', 'DhGroup', 'PfsGroup',
          'VirtualNetworkGatewayConnectionProtocol')
+
+    (VpnGatewayTunnelingProtocol, VpnAuthenticationType) = self.get_models('VpnGatewayTunnelingProtocol', 'VpnAuthenticationType', resource_type=CUSTOM_VHUB_ROUTE_TABLE)
 
     # region VirtualWAN
     vwan_name_type = CLIArgumentType(options_list='--vwan-name', metavar='NAME', help='Name of the virtual WAN.', id_part='name', completer=get_resource_name_completion_list('Microsoft.Network/virtualWANs'))
@@ -149,3 +153,18 @@ def load_arguments(self, _):
         c.argument('virtual_wan_name', vwan_name_type, id_part=None)
         c.argument('vpn_sites', help='Space-separated list of VPN site names or IDs.', nargs='+', validator=get_network_resource_name_or_id('vpn_sites', 'vpnSites'))
     # endregion
+
+    # region VpnServerConfigurations
+    with self.argument_context('network vpn-server-config') as c:
+        c.argument('vpn_protocols', nargs='+', options_list=['--protocols'], arg_type=get_enum_type(VpnGatewayTunnelingProtocol), help='VPN protocols for the VpnServerConfiguration.')
+        c.argument('vpn_auth_types', nargs='+', options_list=['--auth-types'], arg_type=get_enum_type(VpnAuthenticationType), help='VPN authentication types for the VpnServerConfiguration.')
+        c.argument('aad_tenant', help='AAD Vpn authentication parameter AAD tenant.')
+        c.argument('aad_audience', help='AAD Vpn authentication parameter AAD audience.')
+        c.argument('aad_issuer', help='AAD Vpn authentication parameter AAD issuer.')
+        c.argument('vpn_client_root_certs', help='List of VPN client root certificate file paths.', nargs='+')
+        c.argument('vpn_client_revoked_certs', help='List of VPN client revoked certificate file paths.', nargs='+')
+        c.argument('radius_client_root_certs', help='List of Radius client root certificate file paths.', nargs='+')
+        c.argument('radius_server_root_certs', help='List of Radius server root certificate file paths.', nargs='+')
+        c.argument('radius_servers', nargs='+', action=RadiusServerAddAction, help='Radius Server configuration.')
+    # endregion
+

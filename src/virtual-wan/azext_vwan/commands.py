@@ -56,8 +56,9 @@ def load_command_table(self, _):
     )
 
     network_vpn_server_config_sdk = CliCommandType(
-        operations_tmpl='azext_vwan.vendored_sdks.v2020_03_01.operations#VpnServerConfigurations.{}',
+        operations_tmpl='azext_vwan.vendored_sdks.v2020_03_01.operations#VpnServerConfigurationsOperations.{}',
         client_factory=cf_vpn_server_config,
+        resource_type=CUSTOM_VHUB_ROUTE_TABLE,
         min_api='2020-03-01'
     )
 
@@ -148,7 +149,7 @@ def load_command_table(self, _):
     # endregion
 
     # region VpnServer
-    with self.command_group('network vpn-server-config', network_vpn_server_config_sdk) as g:
+    with self.command_group('network vpn-server-config', network_vpn_server_config_sdk, resource_type=CUSTOM_VHUB_ROUTE_TABLE) as g:
         g.custom_command('create', 'create_vpn_server_config')
         g.custom_command('update', 'update_vpn_server_config')
         g.show_command('show')

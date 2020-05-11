@@ -473,3 +473,58 @@ def update_vpn_site(instance, cmd, ip_address=None, virtual_wan=None, tags=None,
 def list_vpn_sites(cmd, resource_group_name=None):
     return _generic_list(cmd.cli_ctx, 'vpn_sites', resource_group_name)
 # endregion
+
+
+# region VPN server configuarions
+def create_vpn_server_config(cmd, client, resource_group_name, vpn_server_config_name, location,
+                             vpn_protocols=None, vpn_auth_types=None,
+                             vpn_client_root_certs=None, vpn_client_revoked_certs=None,
+                             radius_servers=None, radius_client_root_certs=None, radius_server_root_certs=None,
+                             aad_tenant=None, aad_audience=None, aad_issuer=None):
+    VpnServerConfiguration, AadAuthenticationParameters = cmd.get_models('VpnServerConfiguration',
+                                                                         'AadAuthenticationParameters')
+    vpn_server_config = VpnServerConfiguration(
+        location=location,
+        vpn_protocols=vpn_protocols,
+        vpn_authentication_types=vpn_auth_types,
+        vpn_client_root_certificates=vpn_client_root_certs,
+        vpn_client_revoked_certificates=vpn_client_revoked_certs,
+        radius_servers=radius_servers,
+        radius_client_root_certificates=radius_client_root_certs,
+        radius_sever_root_certificates=radius_server_root_certs,
+        aad_authentication_parameters=AadAuthenticationParameters(
+            aad_tenant=aad_tenant,
+            aad_audience=aad_audience,
+            aad_issuer=aad_issuer
+        )
+    )
+
+    return client.create_or_update(resource_group_name, vpn_server_config_name, vpn_server_config)
+
+
+def update_vpn_server_config(instance, cmd, vpn_protocols=None, vpn_auth_types=None,
+                             vpn_client_root_certs=None, vpn_client_revoked_certs=None,
+                             radius_servers=None, radius_root_certs=None, radius_revoked_certs=None,
+                             aad_tenant=None, aad_audience=None, aad_issuer=None):
+    VpnServerConfiguration, AadAuthenticationParameters = cmd.get_models('VpnServerConfiguration',
+                                                                         'AadAuthenticationParameters')
+    with UpdateContext(instance) as c:
+        c.update_param('vpn_protocols', vpn_protocols, False)
+        c.update_param('vpn_authentication_types', vpn_auth_types, False)
+        c.update_param('vpn_client_root_certificates', vpn_client_root_certs, True)
+        c.update_param('vpn_client_revoked_certificates', vpn_client_revoked_certs, True)
+        c.update_param('radius_servers', radius_servers, True)
+        c.update_param('radius_root_certificates', radius_root_certs, True)
+        c.update_param('radius_revoked_certificates', radius_revoked_certs, True)
+
+    device_properties = instance.aad_authentication_parameters
+    with UpdateContext(device_properties) as c:
+        c.update_param('aad_tenant', aad_tenant, True)
+        c.update_param('aad_audience', aad_audience, True)
+        c.update_param('aad_issuer', aad_issuer, False)
+
+    return instance
+
+def list_vpn_server_config(cmd, resource_group_name=None):
+    return _generic_list(cmd.cli_ctx, 'vpn_server_configurations', resource_group_name)
+# endregion
