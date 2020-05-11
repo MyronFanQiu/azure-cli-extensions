@@ -8,7 +8,7 @@ from azure.cli.core.commands import CliCommandType
 from .profiles import CUSTOM_VHUB_ROUTE_TABLE
 
 from ._client_factory import (
-    cf_virtual_wans, cf_virtual_hubs, cf_vpn_sites, cf_vpn_site_configs, cf_vpn_gateways, cf_virtual_hub_route_table_v2s)
+    cf_virtual_wans, cf_virtual_hubs, cf_vpn_sites, cf_vpn_site_configs, cf_vpn_gateways, cf_virtual_hub_route_table_v2s, cf_vpn_server_config)
 from ._util import (
     list_network_resource_property, delete_network_resource_property_entry, get_network_resource_property_entry)
 
@@ -53,6 +53,12 @@ def load_command_table(self, _):
         operations_tmpl='azext_vwan.vendored_sdks.v2018_08_01.operations#VpnSitesConfigurationOperations.{}',
         client_factory=cf_vpn_site_configs,
         min_api='2018-08-01'
+    )
+
+    network_vpn_server_config_sdk = CliCommandType(
+        operations_tmpl='azext_vwan.vendored_sdks.v2020_03_01.operations#VpnServerConfigurations.{}',
+        client_factory=cf_vpn_server_config,
+        min_api='2020-03-01'
     )
 
     network_util = CliCommandType(
@@ -140,3 +146,11 @@ def load_command_table(self, _):
     with self.command_group('network vpn-site', network_vpn_site_config_sdk) as g:
         g.command('download', 'download')
     # endregion
+
+    # region VpnServer
+    with self.command_group('network vpn-server-config', network_vpn_server_config_sdk) as g:
+        g.custom_command('create', 'create_vpn_server_config')
+        g.custom_command('update', 'update_vpn_server_config')
+        g.show_command('show')
+        g.command('delete', 'delete')
+        g.custom_command('list', 'list_vpn_server_config')
